@@ -7,20 +7,16 @@ import Login from './pages/Login';
 import History from './pages/History';
 import Booking from './pages/Booking';
 import CinemaList from './pages/CinemaList'; // ✅ 추가
+import MainLayout from './pages/MainLayout'; // ✅ 정확한 경로로 import
 
-function MainLayout({ currentSlide, setCurrentSlide }) {
-  return (
-    <>
-      <Header />
-      <NavBar />
-      <Carousel currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} />
-    </>
-  );
-}
+
 
 function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // ✅ 로그인 상태 추가
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+  return !!localStorage.getItem('userCode'); // ✅ 로그인 상태 유지
+});
+
 
 
   return (
@@ -28,9 +24,17 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<MainLayout currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} />}
-        />
-        <Route path="/login" element={<Login />} />
+          element={
+          <MainLayout 
+            currentSlide={currentSlide} 
+            setCurrentSlide={setCurrentSlide}
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+            />
+          }
+        />  
+        
+        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/history" element={<History />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/cinemas" element={<CinemaList />} /> {/* ✅ 추가 */}

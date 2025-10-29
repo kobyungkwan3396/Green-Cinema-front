@@ -1,15 +1,29 @@
 import React from 'react';
-import logo from '../assets/logo.png';
+import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
-import { Link } from 'react-router-dom';
 
-const Header = () => (
-  <header className="header">
-    <img src={logo} alt="NOVA CINEMA" className="logo" />
-    <div className="auth">
-    <Link to="/signup">회원가입</Link> | <Link to="/login">로그인</Link>
-    </div>
-  </header>
-);
+function Header({ isLoggedIn, setIsLoggedIn }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('userCode');
+    setIsLoggedIn(false);
+    navigate('/');
+  };
+
+  return (
+    <header className="header">
+      <div className="logo">🎬 NOVACINEMA</div>
+      <div className="auth-buttons">
+        <Link to="/signup" className="auth-link">회원가입</Link>
+        {isLoggedIn ? (
+         <span onClick={handleLogout} className="auth-link">로그아웃</span>
+        ) : (
+         <Link to="/login" className="auth-link">로그인</Link>
+        )}
+      </div>
+    </header>
+  );
+}
 
 export default Header;

@@ -18,3 +18,12 @@
   margin-left: 10px;
   text-decoration: none;
 }
+
+.auth-link {
+  color: #6a1b9a; /* 회원가입과 동일한 색상 */
+  font-weight: bold;
+  text-decoration: none;
+  margin-left: 1rem;
+  cursor: pointer;
+   margin-left: 16px; /* ✅ 여백 조절 */
+}

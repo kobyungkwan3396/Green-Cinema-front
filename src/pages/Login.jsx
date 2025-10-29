@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function Login({ setIsLoggedIn }) {
   const [form, setForm] = useState({ id: '', password: '' });
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -18,11 +20,13 @@ function Login() {
       });
       console.log('로그인 성공:', res.data);
       setMessage(res.data.message);
-
       localStorage.setItem('userCode', res.data.userCode);
+      setIsLoggedIn(true); // ✅ 로그인 성공
+      navigate('/'); // ✅ 메인페이지로 이동
     } catch (err) {
       console.error('로그인 실패:', err);
       setMessage('로그인 실패');
+      setIsLoggedIn(false); // ✅ 로그인 실패
     }
   };
 
